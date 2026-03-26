@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Naomi Ramaker</title>
+    
+    <!-- CUSTOM FAVICON: Brutalist 'B' Logo -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FEFEFC'/%3E%3Crect x='2' y='2' width='60' height='60' fill='none' stroke='black' stroke-width='4'/%3E%3Cpath d='M20 14 H46 V26 H34 V30 H46 V50 H20 Z' fill='black'/%3E%3C/svg%3E" />
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Configure Tailwind -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+            },
+            colors: {
+              beige: '#FEFEFC', 
+              black: '#000000',
+            }
+          }
+        }
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "three": "https://esm.sh/three@^0.182.0",
+    "@react-three/fiber": "https://esm.sh/@react-three/fiber@^9.5.0",
+    "@react-three/drei": "https://esm.sh/@react-three/drei@^10.7.7"
+  }
+}
+</script>
+</head>
+<body class="bg-[#FEFEFC] text-black selection:bg-black selection:text-white overflow-x-hidden no-scrollbar">
+
+   
+
+    <!-- HEADER (Fixed) -->
+    <!-- Fixed transparency to be consistent (0.7) without scroll logic -->
+    <header id="main-header" class="fixed top-0 left-0 w-full h-10 border-b border-black bg-[rgba(254,254,252,0.0)] z-[120] flex justify-between items-center transition-all duration-500 ease-out px-4 backdrop-blur-sm">
+        <div>
+            <button id="header-left-btn" onclick="window.scrollTo(0,0)" class="font-normal tracking-wider text-left cursor-pointer uppercase">
+                Naomi Ramaker
+            </button>
+        </div>
+        <div>
+            <button id="header-right-btn" onclick="toggleRightMenu()" class="font-normal tracking-wider hover:underline text-right uppercase">
+                Menu
+            </button>
+        </div>
+    </header>
+
+    <!-- RIGHT MENU (Info & Works) -->
+    <nav id="right-menu" class="fixed top-0 right-0 h-full w-full md:w-[500px] bg-[rgba(254,254,252,1)] border-l border-black z-[110] transform translate-x-full transition-transform duration-700 ease-out flex flex-col pt-20 overflow-y-auto no-scrollbar font-light backdrop-blur-sm">
+        <div class="leading-relaxed pb-24">
+            
+            <!-- SECTION 1: ACTIVITEITEN -->
+            <div>
+                <!-- Removed sticky class -->
+                <h3 class="font-normal border-b border-black py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Activiteiten</h3>
+                <ul class="space-y-3 px-8 md:px-12 py-8">
+                    <!-- Updated to Buttons targeting IDs -->
+                    <li><button onclick="navigateToWork('act-2', 'Maanzusters', 'Maanzusters is een muzikaal duo bestaande uit Rosa & Naomi. Rosa studeert Jazz & Pop en Naomi Creative Writing op ArtEZ Arnhem. Ze maken muziek met tweestemmige zang en harp of gitaar. Ze nemen de luisteraar mee naar de magie die verstopt zit in het dagelijks leven. Of het nou tandenpoetsen onder de volle maan is, of zwemmen tijdens zonsondergang. Hun muziek is geïnspireerd op Adrianne Lekker en Eefje de Visser.')" class="hover:underline transition-colors block text-left w-full uppercase">Maanzusters</button></li>
+                    <li><button onclick="navigateToWork('act-3', 'Kleinkunst', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" class="hover:underline transition-colors block text-left w-full uppercase">Kleinkunst</button></li>
+                    <!-- Renamed Poëzie to Gedichten (op maat) -->
+                    <li><button onclick="navigateToWork('act-4', 'Gedichten (op maat)', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" class="hover:underline transition-colors block text-left w-full uppercase">Gedichten (op maat)</button></li>
+                    <li><button onclick="navigateToWork('act-5', 'Proza', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" class="hover:underline transition-colors block text-left w-full uppercase">Proza</button></li>
+                    <!-- CV LINK: Change 'href' below to update the file -->
+                    <li><a id="cv-link" href="assets naomi/CV Naomi Ramaker.pdf" download class="hover:underline uppercase">CV</a></li>
+                </ul>
+            </div>
+
+            <!-- SECTION 2: VISUEEL WERK -->
+            <div>
+                <!-- Removed sticky class -->
+                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Visueel Werk</h3>
+                <ul class="space-y-3 px-8 md:px-12 py-8">
+                    <li><button onclick="navigateToWork('visueel-0', 'Vrouwen van Stof', 'DETAILS COMING SOON...')" class="hover:underline transition-colors block text-left w-full uppercase">Vrouwen van Stof</button></li>
+                    <!-- Added Baarmoeders -->
+                    <li><button onclick="navigateToWork('visueel-1', 'Baarmoeders', 'DETAILS COMING SOON...')" class="hover:underline transition-colors block text-left w-full uppercase">Baarmoeders</button></li>
+                </ul>
+            </div>
+
+            <!-- SECTION 3: PRESS -->
+            <div>
+                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Press</h3>
+                <ul class="space-y-3 px-8 md:px-12 py-8">
+                     <li><span class="opacity-50 cursor-default">COMING SOON</span></li>
+                </ul>
+            </div>
+
+            <!-- SECTION 4: PUBLICATIONS -->
+            <div>
+                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Publications</h3>
+                <ul class="space-y-3 px-8 md:px-12 py-8">
+                     <li><span class="opacity-50 cursor-default">COMING SOON</span></li>
+                </ul>
+            </div>
+
+            <!-- SECTION 5: INFO -->
+            <div>
+                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Info</h3>
+                <div class="px-8 md:px-12 py-8">
+                    <p class="mb-4">
+                        Naomi Ramaker was junior stadsdichter van Harderwijk (2016-2020) en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft proza, poëzie, liedjes en doet onderzoek naar de rol van de baarmoeder in de maatschappij en het christendom. Ook geeft ze kunstworkshops via De Vrolijkheid. Eerder schreef ze een korte verhalenbundel over haar oma en de invloed van het christendom op haar seksualiteit. Ze kiest haar woorden met een scherpe zachtheid. Eerder trad ze op bij onder andere Het Moet, Vurige Tongen en stond ze in de Seizoenszine.
+                    </p>
+                    <p>
+                        <a href="mailto:naomiramaker@gmail.com" class="hover:underline uppercase">naomiramaker@gmail.com</a><br>
+                        <a href="#" class="hover:underline uppercase">Instagram</a>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </nav>
+
+    <!-- POPUP OVERLAY -->
+    <!-- Removed fixed background color to allow dynamic JS coloring -->
+    <div id="popup-overlay" 
+         class="fixed bottom-0 left-0 w-full border-t border-black z-[105] transform translate-y-full transition-all duration-500 ease-in-out flex flex-col items-center shadow-2xl h-[150px]"
+         onmouseenter="cancelHideTeaser()"
+         onmouseleave="startHideTeaser()"
+         onclick="openPopupFull()">
+        
+        <!-- Header Part -->
+        <div id="popup-header" class="w-full h-20 border-b border-black flex justify-center flex-shrink-0 cursor-pointer z-10 transition-colors duration-300">
+            <div class="w-full max-w-[900px] flex justify-between items-center px-4 h-full">
+                <button id="popup-action-btn" class="hover:underline tracking-widest text-left uppercase">Close</button>
+                <h2 id="popup-title" class="font-normal tracking-widest text-right uppercase">Work Title</h2>
+            </div>
+        </div>
+        
+        <!-- Content Part -->
+        <div id="popup-body-wrapper" class="w-full flex-1 min-h-0 right-scrollbar overflow-y-auto flex justify-center transition-colors duration-300">
+            <div id="popup-content" class="w-full max-w-[900px] p-4 md:p-8 space-y-8 transition-opacity duration-300">
+                <!-- Dynamic Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="relative w-full flex flex-col items-center bg-[#FEFEFC] min-h-screen">
+        
+        <!-- REORDERED: MAANZUSTERS IS NOW FIRST (And Hero is removed) -->
+        <!-- ACT 2: MAANZUSTERS -->
+        <article class="w-full mb-32 group" id="act-2">
+             <div class="relative w-full h-screen group/carousel">
+                <div id="c-act-2" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Maanzusters/image00016.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Maanzusters/image00018.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                </div>
+            </div>
+            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
+                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-2', 'Maanzusters', 'Maanzusters is een muzikaal duo bestaande uit Rosa & Naomi. Rosa studeert Jazz & Pop en Naomi Creative Writing op ArtEZ Arnhem. Ze maken muziek met tweestemmige zang en harp of gitaar. Ze nemen de luisteraar mee naar de magie die verstopt zit in het dagelijks leven. Of het nou tandenpoetsen onder de volle maan is, of zwemmen tijdens zonsondergang. Hun muziek is geïnspireerd op Adrianne Lekker en Eefje de Visser.')" onclick="openPopupFull()">
+                    <span class="font-normal">Maanzusters</span>
+                </div>
+                <!-- Small arrows next to counter -->
+                <div class="flex gap-2 items-center text-gray-500 select-none">
+                     <button onclick="scrollPrev('c-act-2')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
+                     <span id="cnt-act-2" class="text-black text-sm">(1/2)</span>
+                     <button onclick="scrollNext('c-act-2')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- ACT 3: KLEINKUNST -->
+        <article class="w-full mb-32 group" id="act-3">
+             <div class="relative w-full h-screen group/carousel">
+                <div id="c-act-3" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Ruis/image00003.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                </div>
+            </div>
+            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
+                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-3', 'Kleinkunst', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" onclick="openPopupFull()">
+                    <span class="font-normal">Kleinkunst</span>
+                </div>
+                <div class="flex gap-2 items-center text-gray-500 select-none">
+                     <button onclick="scrollPrev('c-act-3')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
+                     <span id="cnt-act-3" class="text-black text-sm">(1/1)</span>
+                     <button onclick="scrollNext('c-act-3')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- ACT 4: GEDICHTEN (OP MAAT) -->
+        <article class="w-full mb-32 group" id="act-4">
+             <div class="relative w-full h-screen group/carousel">
+                <div id="c-act-4" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Gedichten op maat/IMG_2393.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                </div>
+            </div>
+            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
+                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-4', 'Gedichten (op maat)', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" onclick="openPopupFull()">
+                    <span class="font-normal">Gedichten (op maat)</span>
+                </div>
+                <div class="flex gap-2 items-center text-gray-500 select-none">
+                     <button onclick="scrollPrev('c-act-4')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
+                     <span id="cnt-act-4" class="text-black text-sm">(1/1)</span>
+                     <button onclick="scrollNext('c-act-4')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- ACT 5: PROZA (User Updated Paths) -->
+        <article class="w-full mb-32 group" id="act-5">
+             <div class="relative w-full h-screen group/carousel">
+                <div id="c-act-5" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
+                    <!-- Kept user's original path even though it looks incomplete, just in case -->
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.54.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.45.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>                   
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.47.07.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                </div>
+            </div>
+            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
+                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-5', 'Proza', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" onclick="openPopupFull()">
+                    <span class="font-normal">Proza</span>
+                </div>
+                <div class="flex gap-2 items-center text-gray-500 select-none">
+                     <button onclick="scrollPrev('c-act-5')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
+                     <span id="cnt-act-5" class="text-black text-sm">(1/1)</span>
+                     <button onclick="scrollNext('c-act-5')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- ================= VISUEEL WERK ================= -->
+
+        <!-- VISUEEL 0: VROUWEN VAN STOF (User Updated Images) -->
+        <article class="w-full mb-32 group" id="visueel-0">
+            <div class="relative w-full h-screen group/carousel">
+                <div id="c-visueel-0" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00013.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00009.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00012.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00011.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00010.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00014.png" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    </div>
+            </div>
+            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
+                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('visueel-0', 'Vrouwen van Stof', 'DETAILS COMING SOON...')" onclick="openPopupFull()">
+                    <span class="font-normal">Vrouwen van Stof</span>
+                </div>
+                <div class="flex gap-2 items-center text-gray-500 select-none">
+                     <button onclick="scrollPrev('c-visueel-0')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
+                     <span id="cnt-visueel-0" class="text-black text-sm">(1/6)</span>
+                     <button onclick="scrollNext('c-visueel-0')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- VISUEEL 1: BAARMOEDERS (New Category) -->
+        <article class="w-full mb-32 group" id="visueel-1">
+            <div class="relative w-full h-screen group/carousel">
+                <div id="c-visueel-1" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
+                   <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/baarmoeder/IMG_4841.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/baarmoeder/IMG_4832.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/baarmoeder/IMG_4848.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
+                </div>
+            </div>
+            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
+                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('visueel-1', 'Baarmoeders', 'DETAILS COMING SOON...')" onclick="openPopupFull()">
+                    <span class="font-normal">Baarmoeders</span>
+                </div>
+                <div class="flex gap-2 items-center text-gray-500 select-none">
+                     <button onclick="scrollPrev('c-visueel-1')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
+                     <span id="cnt-visueel-1" class="text-black text-sm">(1/1)</span>
+                     <button onclick="scrollNext('c-visueel-1')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <script>
+        // --- NATIVE CAROUSEL LOGIC ---
+        
+        function scrollPrev(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' });
+            }
+        }
+
+        function scrollNext(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollBy({ left: el.clientWidth, behavior: 'smooth' });
+            }
+        }
+
+        // --- MOUSE DRAG SCROLLING LOGIC ---
+        const sliders = document.querySelectorAll('.carousel-container');
+        sliders.forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('cursor-grabbing');
+                slider.classList.remove('cursor-grab');
+                // Remove smooth scrolling while dragging to prevent lag
+                slider.classList.remove('scroll-smooth');
+                
+                // Ensure we don't select text while dragging
+                e.preventDefault();
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('cursor-grabbing');
+                slider.classList.add('cursor-grab');
+                // Re-enable smooth scrolling
+                slider.classList.add('scroll-smooth');
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('cursor-grabbing');
+                slider.classList.add('cursor-grab');
+                 // Re-enable smooth scrolling
+                slider.classList.add('scroll-smooth');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; // scroll-fast multiplier
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+
+        // --- INTERSECTION OBSERVER FOR COUNTERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousels = document.querySelectorAll('.carousel-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const slide = entry.target;
+                        const carousel = slide.parentNode;
+                        const slides = Array.from(carousel.children);
+                        const index = slides.indexOf(slide) + 1;
+                        const total = slides.length;
+                        
+                        if (carousel.id && carousel.id.startsWith('c-')) {
+                            const counterId = 'cnt-' + carousel.id.substring(2);
+                            const counterEl = document.getElementById(counterId);
+                            if (counterEl) {
+                                counterEl.innerText = `(${index}/${total})`;
+                            }
+                        }
+                    }
+                });
+            }, { threshold: 0.5, root: null });
+
+            carousels.forEach(carousel => {
+                Array.from(carousel.children).forEach(slide => observer.observe(slide));
+            });
+        });
+
+        // --- MENUS, POPUP, COLORS ---
+
+        // Define a palette of earthy browns/beiges for each category
+        const categoryColors = {
+            'act-0': '#E8DCCA', 
+            'act-1': '#E0C9A6',
+            'act-2': '#D2B48C',
+            'act-3': '#C6A678',
+            'act-4': '#BFA07D', 
+            'act-5': '#CDBEA7',
+            'visueel-0': '#D9C5B2',
+            'visueel-1': '#D1BFA0', // New Earthy Sand/Brown for Baarmoeders
+            'default': '#E3B959' // Fallback
+        };
+
+        function toggleRightMenu() {
+            const menu = document.getElementById('right-menu');
+            const btn = document.getElementById('header-right-btn');
+            const isOpen = !menu.classList.contains('translate-x-full');
+            
+            closePopup();
+            
+            if (isOpen) { 
+                closeRightMenu(); 
+            } else { 
+                menu.classList.remove('translate-x-full'); 
+                btn.innerText = 'Close'; 
+            }
+        }
+
+        function closeRightMenu() {
+            document.getElementById('right-menu').classList.add('translate-x-full');
+            document.getElementById('header-right-btn').innerText = 'Menu';
+        }
+
+        function navigateToWork(workId, title, text) {
+            closeRightMenu(); // Close the menu we are currently in
+            const element = document.getElementById(workId);
+            if (element) {
+                const centerOffset = (window.innerHeight / 2) - (element.offsetHeight / 2);
+                const targetPosition = (element.getBoundingClientRect().top + window.scrollY) - centerOffset;
+                smoothScrollTo(targetPosition, 1000); 
+                // Delay showing teaser slightly to allow scroll to start
+                setTimeout(() => showTeaser(workId, title, text), 1000);
+            }
+        }
+
+        function smoothScrollTo(targetY, duration) {
+            const startY = window.scrollY;
+            const distance = targetY - startY;
+            let startTime = null;
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                window.scrollTo(0, startY + (distance * ease(timeElapsed / duration)));
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+            requestAnimationFrame(animation);
+        }
+
+        // Removed updateHeaderText() and onscroll logic per user request.
+
+        // Popup
+        let teaserTimeout;
+        let isFullOpen = false;
+
+        function populatePopup(title, initialText) {
+            document.getElementById('popup-title').innerText = title;
+            document.getElementById('popup-content').innerHTML = `
+                <p class="font-light leading-relaxed text-lg">${initialText}</p>
+                <div class="mt-8 text-black leading-loose text-base opacity-50 font-light">
+                    <!-- Placeholder for extended content -->
+                    ${Array(5).fill("This is a placeholder for extended descriptions, technical details, or full poetic texts that would accompany this work.").join('<br><br>')}
+                </div>`;
+        }
+
+        // Updated showTeaser to accept an ID for coloring
+        function showTeaser(id, title, text) {
+            if (isFullOpen) return; 
+            clearTimeout(teaserTimeout);
+            
+            if (!document.getElementById('right-menu').classList.contains('translate-x-full')) closeRightMenu();
+            
+            // Set Color based on ID
+            const color = categoryColors[id] || categoryColors['default'];
+            document.getElementById('popup-header').style.backgroundColor = color;
+            document.getElementById('popup-body-wrapper').style.backgroundColor = color;
+            document.getElementById('popup-overlay').style.backgroundColor = color;
+
+            populatePopup(title, text);
+            const popup = document.getElementById('popup-overlay');
+            popup.style.height = '150px'; 
+            popup.classList.remove('translate-y-full');
+            document.getElementById('popup-action-btn').innerText = 'More...';
+            document.getElementById('popup-action-btn').onclick = (e) => { e.stopPropagation(); openPopupFull(); };
+        }
+        
+        function startHideTeaser() { if (!isFullOpen) teaserTimeout = setTimeout(closePopup, 300); }
+        function cancelHideTeaser() { if (!isFullOpen) clearTimeout(teaserTimeout); }
+        
+        function openPopupFull(title, text) {
+            // Note: If calling this directly, we assume color is already set via showTeaser
+            if (title && text) populatePopup(title, text);
+            isFullOpen = true;
+            clearTimeout(teaserTimeout); 
+            const popup = document.getElementById('popup-overlay');
+            popup.style.height = '70vh'; 
+            popup.classList.remove('translate-y-full');
+            const btn = document.getElementById('popup-action-btn');
+            btn.innerText = 'Close';
+            btn.onclick = (e) => { e.stopPropagation(); closePopup(); };
+        }
+        
+        function closePopup() {
+            isFullOpen = false;
+            const popup = document.getElementById('popup-overlay');
+            popup.classList.add('translate-y-full');
+            setTimeout(() => { if(!isFullOpen) popup.style.height = '150px'; }, 500);
+        }
+    </script>
+</body>
+</html>
