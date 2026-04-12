@@ -141,6 +141,11 @@
       #popup-overlay { position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #000; z-index: 105; transform: translateY(100%); transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), height 0.32s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; height: 50px; }
       #popup-overlay.visible { transform: translateY(0); }
       #popup-overlay.visible:not(.is-full):hover { height: 160px !important; }
+      /* Mobile teaser: taller by default so it's actually visible */
+      @media(max-width: 767px) {
+        #popup-overlay:not(.is-full) { height: 120px; }
+        #popup-overlay.visible:not(.is-full):hover { height: 120px !important; }
+      }
       #popup-overlay.notransition { transition: none; }
       #popup-header { width: 100%; height: 50px; flex-shrink: 0; border-bottom: 1px solid rgba(0,0,0,0.15); display: flex; justify-content: center; cursor: pointer; transition: background-color 0.3s; }
       .popup-header-inner { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; height: 100%; }
@@ -155,11 +160,16 @@
       @media(min-width: 1280px) { #popup-content { padding: 28px 32px 52px; } }
       #popup-content p { font-size: 0.82rem; letter-spacing: 0.03em; text-transform: none; font-weight: 300; line-height: 1.9; max-width: 560px; text-align: center; color: rgba(0,0,0,0.85); }
 
+      /* Force all text black — no blue links */
+      a, button, span, p, h1, h2, h3, h4, div { color: inherit; }
+      a { color: #000; }
+
       /* ── FOOTER ── */
       footer { background: #FDF8F3; padding: 56px 0 0; }
       .footer-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 0 16px; }
       @media(min-width: 768px) { .footer-inner { padding: 0 24px; } }
       @media(min-width: 1280px) { .footer-inner { padding: 0 32px; } }
+      @media(max-width: 767px) { footer { padding-top: 48px; padding-bottom: 60px; } .footer-inner { gap: 40px; } }
       .footer-col { display: flex; flex-direction: column; gap: 12px; }
       .footer-link { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: #000; text-decoration: none; opacity: 0.5; transition: opacity 0.2s; display: block; }
       .footer-link:hover { opacity: 1; }
@@ -433,7 +443,50 @@ window.addEventListener('DOMContentLoaded',function(){
     });
 
     var hdr=document.getElementById('main-header');
-    window.addEventListener('scroll',function(){hdr.classList.toggle('shrunk',window.scrollY>80);},{passive:true});
+
+    // Collect all articles with their data for scroll detection
+    var articleData = [];
+    document.querySelectorAll('.work-article[id]').forEach(function(article){
+        var zone = article.querySelector('.img-hover-zone');
+        if(zone && zone.dataset.id){
+            articleData.push({
+                el: article,
+                id: zone.dataset.id,
+                title: zone.dataset.title,
+                text: zone.dataset.text
+            });
+        }
+    });
+
+    var lastScrollId = null;
+    function onScroll(){
+        hdr.classList.toggle('shrunk', window.scrollY>80);
+
+        // Mobile: update popup based on which article is most visible
+        if(!window.matchMedia('(hover:none)').matches) return;
+        if(isFull) return;
+
+        var vh = window.innerHeight;
+        var best = null, bestScore = -1;
+        for(var i=0;i<articleData.length;i++){
+            var rect = articleData[i].el.getBoundingClientRect();
+            var overlap = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
+            if(overlap > bestScore){ bestScore = overlap; best = articleData[i]; }
+        }
+
+        if(best && bestScore > vh * 0.3 && best.id !== lastScrollId){
+            lastScrollId = best.id;
+            cur = {id:best.id, title:best.title, text:best.text};
+            applyColor(best.id);
+            fill(best.title, best.text);
+            var p = document.getElementById('popup-overlay');
+            p.style.height = '120px';
+            p.classList.add('visible');
+            document.getElementById('popup-action-btn').textContent = 'More';
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, {passive:true});
 
     document.querySelectorAll('.img-hover-zone').forEach(function(zone){
         var article=zone.closest('.work-article');
@@ -441,11 +494,24 @@ window.addEventListener('DOMContentLoaded',function(){
         var wrap=zone.closest('.work-image-wrap');
         var carousel=wrap.querySelector('.carousel-container');
         var id=zone.dataset.id,title=zone.dataset.title,text=zone.dataset.text;
-        zone.addEventListener('mouseenter',function(){teaser(id,title,text);});
-        zone.addEventListener('mouseleave',function(){zone.classList.remove('hover-left','hover-right');startHide();});
+
+        // Desktop hover only
+        if(!window.matchMedia('(hover:none)').matches){
+            zone.addEventListener('mouseenter',function(){teaser(id,title,text);});
+            zone.addEventListener('mouseleave',function(){zone.classList.remove('hover-left','hover-right');startHide();});
+        }
+
         if(!isSingle){
-            zone.addEventListener('mousemove',function(e){var r=zone.getBoundingClientRect(),goLeft=(e.clientX-r.left)<r.width/2;zone.classList.toggle('hover-left',goLeft);zone.classList.toggle('hover-right',!goLeft);});
-            zone.addEventListener('click',function(e){if(window.matchMedia('(hover:none)').matches){openFull();return;}var r=zone.getBoundingClientRect(),goLeft=(e.clientX-r.left)<r.width/2;carousel.scrollBy({left:goLeft?-carousel.clientWidth:carousel.clientWidth,behavior:'smooth'});});
+            zone.addEventListener('mousemove',function(e){
+                if(window.matchMedia('(hover:none)').matches) return;
+                var r=zone.getBoundingClientRect(),goLeft=(e.clientX-r.left)<r.width/2;
+                zone.classList.toggle('hover-left',goLeft);zone.classList.toggle('hover-right',!goLeft);
+            });
+            zone.addEventListener('click',function(e){
+                if(window.matchMedia('(hover:none)').matches){openFull();return;}
+                var r=zone.getBoundingClientRect(),goLeft=(e.clientX-r.left)<r.width/2;
+                carousel.scrollBy({left:goLeft?-carousel.clientWidth:carousel.clientWidth,behavior:'smooth'});
+            });
         } else {
             zone.addEventListener('click',function(){openFull();});
         }
