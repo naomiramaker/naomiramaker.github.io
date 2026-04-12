@@ -4,497 +4,497 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Naomi Ramaker</title>
-    
-    <!-- CUSTOM FAVICON: Brutalist 'B' Logo -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FEFEFC'/%3E%3Crect x='2' y='2' width='60' height='60' fill='none' stroke='black' stroke-width='4'/%3E%3Cpath d='M20 14 H46 V26 H34 V30 H46 V50 H20 Z' fill='black'/%3E%3C/svg%3E" />
-    
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Load Custom CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Configure Tailwind -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
-            },
-            colors: {
-              beige: '#FEFEFC', 
-              black: '#000000',
-            }
-          }
-        }
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background: #FDF8F3; color: #000; overflow-x: hidden; }
+      ::selection { background: #000; color: #FDF8F3; }
+
+      /* ── HEADER ── */
+      #main-header {
+        position: fixed; top: 0; left: 0; width: 100%; z-index: 120;
+        background: rgba(253,248,243,0.92);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid #000;
+        height: 52px; transition: height 0.4s cubic-bezier(0.4,0,0.2,1);
+        display: flex; align-items: center;
       }
-    </script>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "three": "https://esm.sh/three@^0.182.0",
-    "@react-three/fiber": "https://esm.sh/@react-three/fiber@^9.5.0",
-    "@react-three/drei": "https://esm.sh/@react-three/drei@^10.7.7"
-  }
-}
-</script>
+      #main-header.shrunk { height: 40px; }
+      .header-inner { width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 20px; }
+      .hts { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      .header-info { grid-column: 1; color: #000; opacity: 0.45; transition: opacity 0.2s; white-space: nowrap; background: none; border: none; cursor: pointer; justify-self: start; }
+      .header-info:hover { opacity: 1; }
+      .header-name { grid-column: 2; cursor: pointer; white-space: nowrap; background: none; border: none; }
+      .header-menu-btn { grid-column: 3; justify-self: end; cursor: pointer; background: none; border: none; }
+      .header-menu-btn:hover { opacity: 0.45; }
+
+      /* ── MENU (desktop only) ── */
+      #right-menu {
+        position: fixed; inset: 0; z-index: 200;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.18s ease;
+        padding: 72px 24px 60px;
+        overflow-y: auto;
+        -ms-overflow-style: none; scrollbar-width: none;
+      }
+      #right-menu::-webkit-scrollbar { display: none; }
+      #right-menu::before {
+        content: ''; position: absolute; inset: 0;
+        background: rgba(253,248,243,0.96);
+        backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      }
+      #right-menu.open { opacity: 1; pointer-events: all; }
+      @media(max-width: 767px) { #right-menu { display: none !important; } }
+
+      /* ── MOBILE MENU ── */
+      #mobile-menu {
+        display: none;
+        position: fixed; inset: 0; z-index: 200;
+        flex-direction: column;
+        background: #FDF8F3;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.18s ease;
+        overflow-y: auto;
+        -ms-overflow-style: none; scrollbar-width: none;
+      }
+      #mobile-menu::-webkit-scrollbar { display: none; }
+      #mobile-menu.open { opacity: 1; pointer-events: all; }
+      @media(max-width: 767px) { #mobile-menu { display: flex; } }
+
+      .m-topbar { height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: flex-end; padding: 0 20px; }
+      .m-close { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; background: none; border: none; font-family: inherit; cursor: pointer; }
+      .m-nav { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px 12px; text-align: center; }
+      .m-nav-item { display: block; padding: 2px 0; cursor: pointer; border: none; background: none; font-family: inherit; text-align: center; width: 100%; text-decoration: none; color: #000; transition: opacity 0.15s; }
+      .m-nav-item:active { opacity: 0.25; }
+      .m-nav-title { font-family: 'Cormorant', Georgia, serif; font-size: clamp(2rem, 12vw, 4rem); font-weight: 300; font-style: italic; line-height: 1.1; color: #000; display: block; }
+      .m-contacts { display: none; }
+
+      .menu-close-btn { position: absolute; top: 0; right: 0; height: 52px; padding: 0 20px; display: flex; align-items: center; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; background: none; border: none; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; z-index: 1; }
+      .menu-close-btn:hover { opacity: 0.4; }
+      .menu-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; max-width: 800px; }
+      .menu-nav-item { display: block; width: 100%; padding: 4px 0; cursor: pointer; text-decoration: none; color: #000; transition: opacity 0.15s; }
+      .menu-nav-item:hover { opacity: 0.2; }
+      .menu-nav-title { font-family: 'Cormorant', Georgia, serif; font-size: clamp(2.2rem, 6.5vw, 5rem); font-weight: 300; font-style: italic; letter-spacing: 0.01em; text-transform: none; line-height: 1.05; color: #000; }
+      .menu-contacts { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
+      .menu-contact-link { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: #000; text-decoration: none; opacity: 0.35; transition: opacity 0.15s; }
+      .menu-contact-link:hover { opacity: 1; }
+
+      /* ── IMAGES ── */
+      .work-article { width: 100%; margin-bottom: 40px; }
+      @media(min-width: 768px) { .work-article { margin-bottom: 48px; } }
+      .work-inner { width: 100%; padding: 0; }
+      @media(min-width: 768px) { .work-inner { padding: 0 24px; } }
+      @media(min-width: 1280px) { .work-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; } }
+
+      .work-image-wrap { position: relative; width: 100%; height: 100svh; overflow: hidden; }
+
+      /* Mobile: show-full first image only */
+      @media(max-width: 767px) {
+        .show-full .work-image-wrap { height: auto; overflow: visible; }
+        .show-full .carousel-container { height: auto; overflow: visible; display: block; }
+        .show-full .carousel-slide { display: none; min-width: 100%; height: auto; }
+        .show-full .carousel-slide:first-child { display: block; }
+        .show-full .carousel-slide img { width: 100%; height: auto; object-fit: unset; display: block; }
+        .show-full .caption-nav { display: none; }
+        .show-full .progress-track { display: none; }
+        .show-full .img-hover-zone { display: none; }
+      }
+
+      .single-img .work-image-wrap { cursor: default; }
+      .carousel-container { display: flex; width: 100%; height: 100%; overflow-x: scroll; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; cursor: grab; -ms-overflow-style: none; scrollbar-width: none; }
+      .carousel-container::-webkit-scrollbar { display: none; }
+      .carousel-container.dragging { cursor: grabbing; scroll-behavior: auto; }
+      .carousel-slide { min-width: 100%; height: 100%; scroll-snap-align: start; flex-shrink: 0; }
+      .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      /* ── ARROW HINTS ── */
+      .img-hover-zone { position: absolute; inset: 0; z-index: 2; }
+      .arrow-hint { position: absolute; top: 0; bottom: 0; width: 72px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; pointer-events: none; user-select: none; }
+      .arrow-hint::after { content: ''; display: block; width: 20px; height: 20px; border-top: 1.5px solid #fff; filter: drop-shadow(0 0 4px rgba(0,0,0,0.5)); }
+      .arrow-hint.left { left: 0; }
+      .arrow-hint.left::after { border-left: 1.5px solid #fff; transform: rotate(-45deg) translate(3px,3px); }
+      .arrow-hint.right { right: 0; }
+      .arrow-hint.right::after { border-right: 1.5px solid #fff; transform: rotate(45deg) translate(-3px,3px); }
+      .img-hover-zone.hover-left .arrow-hint.left, .img-hover-zone.hover-right .arrow-hint.right { opacity: 1; }
+      .single-img .img-hover-zone { pointer-events: none; }
+
+      /* ── CAPTION ── */
+      .caption-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 14px 16px 6px; gap: 14px; cursor: pointer; }
+      @media(min-width: 768px) { .caption-bar { padding: 8px 0 0; } }
+      .caption-title { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; justify-self: start; transition: opacity 0.2s; }
+      .caption-bar:hover .caption-title { opacity: 0.4; }
+      .progress-track { position: relative; height: 2px; background: rgba(0,0,0,0.1); width: 100%; min-width: 36px; border-radius: 1px; }
+      .progress-fill { position: absolute; left: 0; top: 0; height: 100%; background: #000; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); border-radius: 1px; }
+      .caption-nav { display: flex; align-items: center; gap: 8px; justify-self: end; }
+      .nav-btn { font-size: 0.58rem; letter-spacing: 0.1em; cursor: pointer; opacity: 0.28; transition: opacity 0.2s; background: none; border: none; font-family: inherit; padding: 4px; }
+      .nav-btn:hover { opacity: 1; }
+      .slide-count { font-size: 0.58rem; opacity: 0.35; min-width: 28px; text-align: center; }
+      .single-img .caption-nav { display: none; }
+      .single-img .progress-track { display: none; }
+
+      /* ── POPUP ── */
+      #popup-overlay { position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #000; z-index: 105; transform: translateY(100%); transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), height 0.32s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; height: 50px; }
+      #popup-overlay.visible { transform: translateY(0); }
+      #popup-overlay.visible:not(.is-full):hover { height: 160px !important; }
+      #popup-overlay.notransition { transition: none; }
+      #popup-header { width: 100%; height: 50px; flex-shrink: 0; border-bottom: 1px solid rgba(0,0,0,0.15); display: flex; justify-content: center; cursor: pointer; transition: background-color 0.3s; }
+      .popup-header-inner { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; height: 100%; }
+      @media(min-width: 768px) { .popup-header-inner { padding: 0 24px; } }
+      @media(min-width: 1280px) { .popup-header-inner { padding: 0 32px; } }
+      #popup-action-btn { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; background: none; border: none; cursor: pointer; font-family: inherit; height: 100%; padding: 0; display: flex; align-items: center; }
+      #popup-action-btn:hover { opacity: 0.4; }
+      #popup-title { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; text-align: right; cursor: pointer; }
+      #popup-body-wrapper { width: 100%; flex: 1; min-height: 0; overflow-y: auto; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s; }
+      #popup-content { width: 100%; max-width: 1200px; padding: 28px 16px 52px; display: flex; justify-content: center; }
+      @media(min-width: 768px) { #popup-content { padding: 28px 24px 52px; } }
+      @media(min-width: 1280px) { #popup-content { padding: 28px 32px 52px; } }
+      #popup-content p { font-size: 0.82rem; letter-spacing: 0.03em; text-transform: none; font-weight: 300; line-height: 1.9; max-width: 560px; text-align: center; color: rgba(0,0,0,0.85); }
+
+      /* ── FOOTER ── */
+      footer { background: #FDF8F3; padding: 56px 0 0; }
+      .footer-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 0 16px; }
+      @media(min-width: 768px) { .footer-inner { padding: 0 24px; } }
+      @media(min-width: 1280px) { .footer-inner { padding: 0 32px; } }
+      .footer-col { display: flex; flex-direction: column; gap: 12px; }
+      .footer-link { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: #000; text-decoration: none; opacity: 0.5; transition: opacity 0.2s; display: block; }
+      .footer-link:hover { opacity: 1; }
+      .footer-base { width: 100%; max-width: 1200px; margin: 32px auto 0; padding: 0 16px 40px; display: flex; justify-content: center; }
+      @media(min-width: 768px) { .footer-base { padding: 0 24px 48px; } }
+      @media(min-width: 1280px) { .footer-base { padding: 0 32px 48px; } }
+      .footer-base-text { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(0,0,0,0.22); }
+
+      main { padding-top: 52px; }
+    </style>
 </head>
-<body class="bg-[#FEFEFC] text-black selection:bg-black selection:text-white overflow-x-hidden no-scrollbar">
+<body>
 
-   
+<header id="main-header">
+    <div class="header-inner">
+        <button class="hts header-info" onclick="openAbout()">Info</button>
+        <button class="hts header-name" onclick="window.scrollTo({top:0,behavior:'smooth'})">Naomi Ramaker</button>
+        <button id="header-menu-btn" class="hts header-menu-btn" onclick="toggleMenu()">Menu</button>
+    </div>
+</header>
 
-    <!-- HEADER (Fixed) -->
-    <!-- Fixed transparency to be consistent (0.7) without scroll logic -->
-    <header id="main-header" class="fixed top-0 left-0 w-full h-10 border-b border-black bg-[rgba(254,254,252,0.0)] z-[120] flex justify-between items-center transition-all duration-500 ease-out px-4 backdrop-blur-sm">
-        <div>
-            <button id="header-left-btn" onclick="window.scrollTo(0,0)" class="font-normal tracking-wider text-left cursor-pointer uppercase">
-                Naomi Ramaker
-            </button>
+<div id="right-menu" aria-hidden="true">
+    <button class="menu-close-btn hts" onclick="toggleMenu()">Close</button>
+    <div class="menu-content">
+        <div class="menu-nav-item" onclick="goTo('act-2','Maanzusters','Maanzusters is een muzikaal duo bestaande uit Rosa &amp; Naomi. Ze maken muziek met tweestemmige zang en harp of gitaar.')">
+            <span class="menu-nav-title">Maanzusters</span>
         </div>
-        <div>
-            <button id="header-right-btn" onclick="toggleRightMenu()" class="font-normal tracking-wider hover:underline text-right uppercase">
-                Menu
-            </button>
+        <div class="menu-nav-item" onclick="goTo('act-3','Optreden','Naomi schrijft po&euml;zie alsof het proza is. En dat alles met een scherpe zachtheid.')">
+            <span class="menu-nav-title">Optreden</span>
         </div>
-    </header>
+        <div class="menu-nav-item" onclick="goTo('act-4','Gedichten (op maat)','Heb je een verhaal dat je dicht aan het hart ligt? Laat het vertalen in een gedicht!')">
+            <span class="menu-nav-title">Gedichten (op maat)</span>
+        </div>
+        <div class="menu-nav-item" onclick="goTo('act-5','Proza','Naomi schrijft proza alsof het po&euml;zie is.')">
+            <span class="menu-nav-title">Proza</span>
+        </div>
+        <div class="menu-nav-item" onclick="goTo('visueel-0','Vrouwen van Stof','Text-tiel. Wandkleed oma. Wandkleed vogel. Wandkleed wieke')">
+            <span class="menu-nav-title">Vrouwen van Stof</span>
+        </div>
+        <div class="menu-nav-item" onclick="goTo('visueel-1','Baarmoeders','DETAILS COMING SOON...')">
+            <span class="menu-nav-title">Baarmoeders</span>
+        </div>
+        <div class="menu-nav-item">
+            <a class="menu-nav-title" href="assets naomi/CV Naomi Ramaker.pdf" download style="text-decoration:none;color:inherit;">CV</a>
+        </div>
+    </div>
+</div>
 
-    <!-- RIGHT MENU (Info & Works) -->
-    <nav id="right-menu" class="fixed top-0 right-0 h-full w-full md:w-[500px] bg-[rgba(254,254,252,1)] border-l border-black z-[110] transform translate-x-full transition-transform duration-700 ease-out flex flex-col pt-20 overflow-y-auto no-scrollbar font-light backdrop-blur-sm">
-        <div class="leading-relaxed pb-24">
-            
-            <!-- SECTION 1: ACTIVITEITEN -->
-            <div>
-                <!-- Removed sticky class -->
-                <h3 class="font-normal border-b border-black py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Activiteiten</h3>
-                <ul class="space-y-3 px-8 md:px-12 py-8">
-                    <!-- Updated to Buttons targeting IDs -->
-                    <li><button onclick="navigateToWork('act-2', 'Maanzusters', 'Maanzusters is een muzikaal duo bestaande uit Rosa & Naomi. Rosa studeert Jazz & Pop en Naomi Creative Writing op ArtEZ Arnhem. Ze maken muziek met tweestemmige zang en harp of gitaar. Ze nemen de luisteraar mee naar de magie die verstopt zit in het dagelijks leven. Of het nou tandenpoetsen onder de volle maan is, of zwemmen tijdens zonsondergang. Hun muziek is geïnspireerd op Adrianne Lekker en Eefje de Visser.')" class="hover:underline transition-colors block text-left w-full uppercase">Maanzusters</button></li>
-                    <li><button onclick="navigateToWork('act-3', 'Kleinkunst', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" class="hover:underline transition-colors block text-left w-full uppercase">Kleinkunst</button></li>
-                    <!-- Renamed Poëzie to Gedichten (op maat) -->
-                    <li><button onclick="navigateToWork('act-4', 'Gedichten (op maat)', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" class="hover:underline transition-colors block text-left w-full uppercase">Gedichten (op maat)</button></li>
-                    <li><button onclick="navigateToWork('act-5', 'Proza', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" class="hover:underline transition-colors block text-left w-full uppercase">Proza</button></li>
-                    <!-- CV LINK: Change 'href' below to update the file -->
-                    <li><a id="cv-link" href="assets naomi/CV Naomi Ramaker.pdf" download class="hover:underline uppercase">CV</a></li>
-                </ul>
-            </div>
+<div id="mobile-menu" aria-hidden="true">
+    <div class="m-topbar">
+        <button class="m-close hts" onclick="toggleMenu()">Close</button>
+    </div>
+    <div class="m-nav">
+        <button class="m-nav-item" onclick="goTo('act-2','Maanzusters','Maanzusters is een muzikaal duo bestaande uit Rosa &amp; Naomi.')"><span class="m-nav-title">Maanzusters</span></button>
+        <button class="m-nav-item" onclick="goTo('act-3','Optreden','Naomi schrijft po\u00ebzie alsof het proza is.')"><span class="m-nav-title">Optreden</span></button>
+        <button class="m-nav-item" onclick="goTo('act-4','Gedichten (op maat)','Heb je een verhaal dat je dicht aan het hart ligt? Laat het vertalen in een gedicht!')"><span class="m-nav-title">Gedichten (op maat)</span></button>
+        <button class="m-nav-item" onclick="goTo('act-5','Proza','Naomi schrijft proza alsof het po\u00ebzie is.')"><span class="m-nav-title">Proza</span></button>
+        <button class="m-nav-item" onclick="goTo('visueel-0','Vrouwen van Stof','Text-tiel. Wandkleed oma. Wandkleed vogel. Wandkleed wieke')"><span class="m-nav-title">Vrouwen van Stof</span></button>
+        <button class="m-nav-item" onclick="goTo('visueel-1','Baarmoeders','DETAILS COMING SOON...')"><span class="m-nav-title">Baarmoeders</span></button>
+        <a class="m-nav-item" href="assets naomi/CV Naomi Ramaker.pdf" download><span class="m-nav-title">CV</span></a>
+    </div>
+</div>
 
-            <!-- SECTION 2: VISUEEL WERK -->
-            <div>
-                <!-- Removed sticky class -->
-                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Visueel Werk</h3>
-                <ul class="space-y-3 px-8 md:px-12 py-8">
-                    <li><button onclick="navigateToWork('visueel-0', 'Vrouwen van Stof', 'DETAILS COMING SOON...')" class="hover:underline transition-colors block text-left w-full uppercase">Vrouwen van Stof</button></li>
-                    <!-- Added Baarmoeders -->
-                    <li><button onclick="navigateToWork('visueel-1', 'Baarmoeders', 'DETAILS COMING SOON...')" class="hover:underline transition-colors block text-left w-full uppercase">Baarmoeders</button></li>
-                </ul>
-            </div>
+<div id="popup-overlay" onmouseenter="cancelHide()" onmouseleave="startHide()">
+    <div id="popup-header" onclick="openFull()">
+        <div class="popup-header-inner">
+            <button id="popup-action-btn" onclick="event.stopPropagation();handleBtn()">More</button>
+            <h2 id="popup-title"></h2>
+        </div>
+    </div>
+    <div id="popup-body-wrapper"><div id="popup-content"></div></div>
+</div>
 
-            <!-- SECTION 3: PRESS -->
-            <div>
-                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Press</h3>
-                <ul class="space-y-3 px-8 md:px-12 py-8">
-                     <li><span class="opacity-50 cursor-default">COMING SOON</span></li>
-                </ul>
-            </div>
+<main>
 
-            <!-- SECTION 4: PUBLICATIONS -->
-            <div>
-                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Publications</h3>
-                <ul class="space-y-3 px-8 md:px-12 py-8">
-                     <li><span class="opacity-50 cursor-default">COMING SOON</span></li>
-                </ul>
-            </div>
-
-            <!-- SECTION 5: INFO -->
-            <div>
-                <h3 class="font-normal border-b border-black border-t py-4 px-8 md:px-12 bg-[rgba(254,254,252,0.7)] z-10 uppercase tracking-widest backdrop-blur-sm">Info</h3>
-                <div class="px-8 md:px-12 py-8">
-                    <p class="mb-4">
-                        Naomi Ramaker was junior stadsdichter van Harderwijk (2016-2020) en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft proza, poëzie, liedjes en doet onderzoek naar de rol van de baarmoeder in de maatschappij en het christendom. Ook geeft ze kunstworkshops via De Vrolijkheid. Eerder schreef ze een korte verhalenbundel over haar oma en de invloed van het christendom op haar seksualiteit. Ze kiest haar woorden met een scherpe zachtheid. Eerder trad ze op bij onder andere Het Moet, Vurige Tongen en stond ze in de Seizoenszine.
-                    </p>
-                    <p>
-                        <a href="mailto:naomiramaker@gmail.com" class="hover:underline uppercase">naomiramaker@gmail.com</a><br>
-                        <a href="#" class="hover:underline uppercase">Instagram</a>
-                    </p>
+    <article class="work-article" id="act-2">
+        <div class="work-inner">
+            <div class="work-image-wrap">
+                <div class="img-hover-zone" data-id="act-2" data-title="Maanzusters" data-text="Maanzusters is een muzikaal duo bestaande uit Rosa &amp; Naomi. Rosa studeert Jazz &amp; Pop en Naomi Creative Writing op ArtEZ Arnhem. Ze maken muziek met tweestemmige zang en harp of gitaar. Ze nemen de luisteraar mee naar de magie die verstopt zit in het dagelijks leven. Of het nou tandenpoetsen onder de volle maan is, of zwemmen tijdens zonsondergang. Hun muziek is ge&iuml;nspireerd op Adrianne Lekker en Eefje de Visser.. Liedjes op maat: Laat een liedje op maat maken door de Maanzusters! Ze vertalen jouw verhaal naar een songtekst en een lied. Heb je interesse? Stuur ze een mailtje.">
+                    <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
+                </div>
+                <div id="c-act-2" class="carousel-container">
+                    <div class="carousel-slide"><img src="assets naomi/work/Maanzusters/image00016.jpeg" onerror="this.src='assets/landing.jpg'" alt="Maanzusters"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/Maanzusters/image00018.jpeg" onerror="this.src='assets/landing.jpg'" alt="Maanzusters"></div>
                 </div>
             </div>
-            
+            <div class="caption-bar" onmouseenter="teaser('act-2','Maanzusters','Maanzusters is een muzikaal duo bestaande uit Rosa &amp; Naomi.')" onmouseleave="startHide()" onclick="openFull()">
+                <div class="caption-title">Maanzusters</div>
+                <div class="progress-track"><div class="progress-fill" id="prog-act-2" style="width:50%"></div></div>
+                <div class="caption-nav">
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollPrev('c-act-2')">&#8592;</button>
+                    <span class="slide-count" id="cnt-act-2">1 / 2</span>
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollNext('c-act-2')">&#8594;</button>
+                </div>
+            </div>
         </div>
-    </nav>
+    </article>
 
-    <!-- POPUP OVERLAY -->
-    <!-- Removed fixed background color to allow dynamic JS coloring -->
-    <div id="popup-overlay" 
-         class="fixed bottom-0 left-0 w-full border-t border-black z-[105] transform translate-y-full transition-all duration-500 ease-in-out flex flex-col items-center shadow-2xl h-[150px]"
-         onmouseenter="cancelHideTeaser()"
-         onmouseleave="startHideTeaser()"
-         onclick="openPopupFull()">
-        
-        <!-- Header Part -->
-        <div id="popup-header" class="w-full h-20 border-b border-black flex justify-center flex-shrink-0 cursor-pointer z-10 transition-colors duration-300">
-            <div class="w-full max-w-[900px] flex justify-between items-center px-4 h-full">
-                <button id="popup-action-btn" class="hover:underline tracking-widest text-left uppercase">Close</button>
-                <h2 id="popup-title" class="font-normal tracking-widest text-right uppercase">Work Title</h2>
+    <article class="work-article show-full single-img" id="act-3">
+        <div class="work-inner">
+            <div class="work-image-wrap">
+                <div class="img-hover-zone" data-id="act-3" data-title="Optreden" data-text="Naomi schrijft po&euml;zie alsof het proza is. Als lezer dwaal je door de beelden. Soms word je aan de hand genomen, soms valt de grond onder je weg of wordt hij met liefde weer aangelegd. Ze schrijft over relaties met de mensen en andere wezens om haar heen, over wat het betekent om een vrouwenlichaam te hebben en je vrouw te voelen. En dat alles met een scherpe zachtheid.. Bundels: Man. Mal. Draagzak. Feniks. Optredens: Junior-stadsdichter van Harderwijk (2016-2020) / Walhalla Harderwijk / Estrado Harderwijk / Onderstroom Festival / Tilt Tilburg / Boeken rond het Paleis / In De Morelleput / Sound &amp; Soul Nijmegen / ABC Libertas Arnhem / Ecojam Amsterdam / Vurige Tongen Ruigoord / Soelaas Amersfoort / Per expressie Amersfoort"></div>
+                <div id="c-act-3" class="carousel-container">
+                    <div class="carousel-slide"><img src="assets naomi/work/Ruis/image00003.jpeg" onerror="this.src='assets/landing.jpg'" alt="Optreden"></div>
+                </div>
+            </div>
+            <div class="caption-bar" onmouseenter="teaser('act-3','Optreden','Naomi schrijft po\u00ebzie alsof het proza is. En dat alles met een scherpe zachtheid.')" onmouseleave="startHide()" onclick="openFull()">
+                <div class="caption-title">Optreden</div>
+                <div class="progress-track" style="display:none"></div>
+                <div class="caption-nav"></div>
             </div>
         </div>
-        
-        <!-- Content Part -->
-        <div id="popup-body-wrapper" class="w-full flex-1 min-h-0 right-scrollbar overflow-y-auto flex justify-center transition-colors duration-300">
-            <div id="popup-content" class="w-full max-w-[900px] p-4 md:p-8 space-y-8 transition-opacity duration-300">
-                <!-- Dynamic Content -->
+    </article>
+
+    <article class="work-article show-full single-img" id="act-4">
+        <div class="work-inner">
+            <div class="work-image-wrap">
+                <div class="img-hover-zone" data-id="act-4" data-title="Gedichten (op maat)" data-text="Heb je een verhaal dat je dicht aan het hart ligt? Laat het vertalen in een gedicht! Zo word je door je eigen verhaal geraakt in andermans verwoording en krijg je een ander perspectief op wat voor je neus lag, of juist te ver weg was om aan te raken.. Particuliere opdrachten. Diverse winkels die kaarten De Zinnige Zaak verkopen. Blur Amersfoort. In de Buitenlucht zorg"></div>
+                <div id="c-act-4" class="carousel-container">
+                    <div class="carousel-slide"><img src="assets naomi/work/Gedichten op maat/IMG_2393.JPG" onerror="this.src='assets/landing.jpg'" alt="Gedichten op maat"></div>
+                </div>
             </div>
+            <div class="caption-bar" onmouseenter="teaser('act-4','Gedichten (op maat)','Heb je een verhaal dat je dicht aan het hart ligt? Laat het vertalen in een gedicht!')" onmouseleave="startHide()" onclick="openFull()">
+                <div class="caption-title">Gedichten (op maat)</div>
+                <div class="progress-track" style="display:none"></div>
+                <div class="caption-nav"></div>
+            </div>
+        </div>
+    </article>
+
+    <article class="work-article show-full" id="act-5">
+        <div class="work-inner">
+            <div class="work-image-wrap">
+                <div class="img-hover-zone" data-id="act-5" data-title="Proza" data-text="Naomi schrijft proza alsof het po&euml;zie is. Door de alinea&rsquo;s heen weeft ze po&euml;tische beelden. Ze zet liever beelden neer dan dat ze een klassiek verhaal vertelt. Ze schreef onder andere over naaktslakken gecombineerd met schaamte, liefde die opbloeit op een begraafplaats en over twee verdwaalde meisjes in Zweden.">
+                    <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
+                </div>
+                <div id="c-act-5" class="carousel-container">
+                    <div class="carousel-slide"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.54.jpeg" onerror="this.src='assets/landing.jpg'" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.45.jpeg" onerror="this.src='assets/landing.jpg'" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.47.07.jpeg" onerror="this.src='assets/landing.jpg'" alt="Proza"></div>
+                </div>
+            </div>
+            <div class="caption-bar" onmouseenter="teaser('act-5','Proza','Naomi schrijft proza alsof het po\u00ebzie is.')" onmouseleave="startHide()" onclick="openFull()">
+                <div class="caption-title">Proza</div>
+                <div class="progress-track"><div class="progress-fill" id="prog-act-5" style="width:33%"></div></div>
+                <div class="caption-nav">
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollPrev('c-act-5')">&#8592;</button>
+                    <span class="slide-count" id="cnt-act-5">1 / 3</span>
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollNext('c-act-5')">&#8594;</button>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article class="work-article" id="visueel-0">
+        <div class="work-inner">
+            <div class="work-image-wrap">
+                <div class="img-hover-zone" data-id="visueel-0" data-title="Vrouwen van Stof" data-text="Text-tiel. Wandkleed oma. Wandkleed vogel. Wandkleed wieke">
+                    <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
+                </div>
+                <div id="c-visueel-0" class="carousel-container">
+                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00013.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00009.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00012.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00011.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00010.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00014.png" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                </div>
+            </div>
+            <div class="caption-bar" onmouseenter="teaser('visueel-0','Vrouwen van Stof','Text-tiel. Wandkleed oma. Wandkleed vogel. Wandkleed wieke')" onmouseleave="startHide()" onclick="openFull()">
+                <div class="caption-title">Vrouwen van Stof</div>
+                <div class="progress-track"><div class="progress-fill" id="prog-visueel-0" style="width:16.66%"></div></div>
+                <div class="caption-nav">
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollPrev('c-visueel-0')">&#8592;</button>
+                    <span class="slide-count" id="cnt-visueel-0">1 / 6</span>
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollNext('c-visueel-0')">&#8594;</button>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article class="work-article show-full" id="visueel-1">
+        <div class="work-inner">
+            <div class="work-image-wrap">
+                <div class="img-hover-zone" data-id="visueel-1" data-title="Baarmoeders" data-text="DETAILS COMING SOON...">
+                    <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
+                </div>
+                <div id="c-visueel-1" class="carousel-container">
+                    <div class="carousel-slide"><img src="assets naomi/work/baarmoeder/IMG_4841.JPG" onerror="this.src='assets/landing.jpg'" alt="Baarmoeders"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/baarmoeder/IMG_4832.JPG" onerror="this.src='assets/landing.jpg'" alt="Baarmoeders"></div>
+                    <div class="carousel-slide"><img src="assets naomi/work/baarmoeder/IMG_4848.JPG" onerror="this.src='assets/landing.jpg'" alt="Baarmoeders"></div>
+                </div>
+            </div>
+            <div class="caption-bar" onmouseenter="teaser('visueel-1','Baarmoeders','DETAILS COMING SOON...')" onmouseleave="startHide()" onclick="openFull()">
+                <div class="caption-title">Baarmoeders</div>
+                <div class="progress-track"><div class="progress-fill" id="prog-visueel-1" style="width:33%"></div></div>
+                <div class="caption-nav">
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollPrev('c-visueel-1')">&#8592;</button>
+                    <span class="slide-count" id="cnt-visueel-1">1 / 3</span>
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollNext('c-visueel-1')">&#8594;</button>
+                </div>
+            </div>
+        </div>
+    </article>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-col">
+            <a class="footer-link" href="#" onclick="smoothTo(document.getElementById('act-2').getBoundingClientRect().top+window.scrollY-60,600);return false;">Maanzusters</a>
+            <a class="footer-link" href="#" onclick="smoothTo(document.getElementById('act-3').getBoundingClientRect().top+window.scrollY-60,600);return false;">Optreden</a>
+            <a class="footer-link" href="#" onclick="smoothTo(document.getElementById('act-4').getBoundingClientRect().top+window.scrollY-60,600);return false;">Gedichten (op maat)</a>
+            <a class="footer-link" href="#" onclick="smoothTo(document.getElementById('act-5').getBoundingClientRect().top+window.scrollY-60,600);return false;">Proza</a>
+            <a class="footer-link" href="#" onclick="smoothTo(document.getElementById('visueel-0').getBoundingClientRect().top+window.scrollY-60,600);return false;">Vrouwen van Stof</a>
+            <a class="footer-link" href="#" onclick="smoothTo(document.getElementById('visueel-1').getBoundingClientRect().top+window.scrollY-60,600);return false;">Baarmoeders</a>
+        </div>
+        <div class="footer-col">
+            <span class="footer-link" style="cursor:default;">naomiramaker&#64;gmail.com</span>
+            <a class="footer-link" href="https://instagram.com/naomiramaker" target="_blank">&#64;naomiramaker</a>
+            <a class="footer-link" href="assets naomi/CV Naomi Ramaker.pdf" download>CV &#8595;</a>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="relative w-full flex flex-col items-center bg-[#FEFEFC] min-h-screen">
-        
-        <!-- REORDERED: MAANZUSTERS IS NOW FIRST (And Hero is removed) -->
-        <!-- ACT 2: MAANZUSTERS -->
-        <article class="w-full mb-32 group" id="act-2">
-             <div class="relative w-full h-screen group/carousel">
-                <div id="c-act-2" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Maanzusters/image00016.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Maanzusters/image00018.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
-                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-2', 'Maanzusters', 'Maanzusters is een muzikaal duo bestaande uit Rosa & Naomi. Rosa studeert Jazz & Pop en Naomi Creative Writing op ArtEZ Arnhem. Ze maken muziek met tweestemmige zang en harp of gitaar. Ze nemen de luisteraar mee naar de magie die verstopt zit in het dagelijks leven. Of het nou tandenpoetsen onder de volle maan is, of zwemmen tijdens zonsondergang. Hun muziek is geïnspireerd op Adrianne Lekker en Eefje de Visser.')" onclick="openPopupFull()">
-                    <span class="font-normal">Maanzusters</span>
-                </div>
-                <!-- Small arrows next to counter -->
-                <div class="flex gap-2 items-center text-gray-500 select-none">
-                     <button onclick="scrollPrev('c-act-2')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
-                     <span id="cnt-act-2" class="text-black text-sm">(1/2)</span>
-                     <button onclick="scrollNext('c-act-2')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
-                </div>
-            </div>
-        </article>
+</footer>
 
-        <!-- ACT 3: KLEINKUNST -->
-        <article class="w-full mb-32 group" id="act-3">
-             <div class="relative w-full h-screen group/carousel">
-                <div id="c-act-3" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Ruis/image00003.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
-                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-3', 'Kleinkunst', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" onclick="openPopupFull()">
-                    <span class="font-normal">Kleinkunst</span>
-                </div>
-                <div class="flex gap-2 items-center text-gray-500 select-none">
-                     <button onclick="scrollPrev('c-act-3')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
-                     <span id="cnt-act-3" class="text-black text-sm">(1/1)</span>
-                     <button onclick="scrollNext('c-act-3')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
-                </div>
-            </div>
-        </article>
+<script>
+// ── ABOUT (no article, lives in popup only) ──
+var aboutText = 'Naomi Ramaker was junior stadsdichter van Harderwijk (2016-2020) en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft proza, po\u00ebzie, liedjes en doet onderzoek naar de rol van de baarmoeder in de maatschappij en het christendom. Ook geeft ze kunstworkshops via De Vrolijkheid. Eerder schreef ze een korte verhalenbundel over haar oma en de invloed van het christendom op haar seksualiteit. Ze kiest haar woorden met een scherpe zachtheid. Eerder trad ze op bij onder andere Het Moet, Vurige Tongen en stond ze in de Seizoenszine. naomiramaker@gmail.com. @naomiramaker';
 
-        <!-- ACT 4: GEDICHTEN (OP MAAT) -->
-        <article class="w-full mb-32 group" id="act-4">
-             <div class="relative w-full h-screen group/carousel">
-                <div id="c-act-4" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Gedichten op maat/IMG_2393.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
-                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-4', 'Gedichten (op maat)', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" onclick="openPopupFull()">
-                    <span class="font-normal">Gedichten (op maat)</span>
-                </div>
-                <div class="flex gap-2 items-center text-gray-500 select-none">
-                     <button onclick="scrollPrev('c-act-4')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
-                     <span id="cnt-act-4" class="text-black text-sm">(1/1)</span>
-                     <button onclick="scrollNext('c-act-4')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
-                </div>
-            </div>
-        </article>
+function openAbout() {
+    cur = {id:'about', title:'Info', text: aboutText};
+    applyColor('about');
+    fill('Info', aboutText);
+    openFull();
+}
 
-        <!-- ACT 5: PROZA (User Updated Paths) -->
-        <article class="w-full mb-32 group" id="act-5">
-             <div class="relative w-full h-screen group/carousel">
-                <div id="c-act-5" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
-                    <!-- Kept user's original path even though it looks incomplete, just in case -->
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.54.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.45.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>                   
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.47.07.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
-                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('act-5', 'Proza', 'Naomi is schrijver in tekst en beeld, vol ideeën die steeds andere vormen aannemen. Ze was junior stadsdichter van Harderwijk van 2016-2020 en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft poëzie, proza en liedjes voor haar muzikale duo Maanzusters. Ook vertelt ze verhalen met textiel, zoals met haar luisterwandkleden waarin de thema’s generaties, thuis en vrouwelijkheid voorkomen. Zo zacht als textiel is, zit haar werk ook altijd vol zachte krachten, met soms een ruw randje.')" onclick="openPopupFull()">
-                    <span class="font-normal">Proza</span>
-                </div>
-                <div class="flex gap-2 items-center text-gray-500 select-none">
-                     <button onclick="scrollPrev('c-act-5')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
-                     <span id="cnt-act-5" class="text-black text-sm">(1/1)</span>
-                     <button onclick="scrollNext('c-act-5')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
-                </div>
-            </div>
-        </article>
+// ── CAROUSEL ──
+function scrollPrev(id){var el=document.getElementById(id);if(el)el.scrollBy({left:-el.clientWidth,behavior:'smooth'});}
+function scrollNext(id){var el=document.getElementById(id);if(el)el.scrollBy({left:el.clientWidth,behavior:'smooth'});}
 
-        <!-- ================= VISUEEL WERK ================= -->
+document.querySelectorAll('.carousel-container').forEach(function(s){
+    var down=false,sx,sl;
+    s.addEventListener('mousedown',function(e){down=true;s.classList.add('dragging');e.preventDefault();sx=e.pageX-s.offsetLeft;sl=s.scrollLeft;});
+    function up(){down=false;s.classList.remove('dragging');}
+    s.addEventListener('mouseleave',up);s.addEventListener('mouseup',up);
+    s.addEventListener('mousemove',function(e){if(!down)return;e.preventDefault();s.scrollLeft=sl-(e.pageX-s.offsetLeft-sx)*1.4;});
+    var tx=0;
+    s.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+    s.addEventListener('touchend',function(e){var d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>40)s.scrollBy({left:d>0?s.clientWidth:-s.clientWidth,behavior:'smooth'});},{passive:true});
+});
 
-        <!-- VISUEEL 0: VROUWEN VAN STOF (User Updated Images) -->
-        <article class="w-full mb-32 group" id="visueel-0">
-            <div class="relative w-full h-screen group/carousel">
-                <div id="c-visueel-0" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00013.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00009.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00012.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00011.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00010.jpeg" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00014.png" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    </div>
-            </div>
-            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
-                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('visueel-0', 'Vrouwen van Stof', 'DETAILS COMING SOON...')" onclick="openPopupFull()">
-                    <span class="font-normal">Vrouwen van Stof</span>
-                </div>
-                <div class="flex gap-2 items-center text-gray-500 select-none">
-                     <button onclick="scrollPrev('c-visueel-0')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
-                     <span id="cnt-visueel-0" class="text-black text-sm">(1/6)</span>
-                     <button onclick="scrollNext('c-visueel-0')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
-                </div>
-            </div>
-        </article>
-
-        <!-- VISUEEL 1: BAARMOEDERS (New Category) -->
-        <article class="w-full mb-32 group" id="visueel-1">
-            <div class="relative w-full h-screen group/carousel">
-                <div id="c-visueel-1" class="carousel-container flex w-full h-full overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth cursor-grab">
-                   <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/baarmoeder/IMG_4841.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/baarmoeder/IMG_4832.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                    <div class="min-w-full h-full snap-start relative"><img src="assets naomi/work/baarmoeder/IMG_4848.JPG" onerror="this.src='assets/landing.jpg'" class="w-full h-full object-cover"></div>
-                </div>
-            </div>
-            <div class="w-full max-w-[900px] mx-auto mt-3 px-2 md:px-4 flex justify-between items-start tracking-wide pt-2">
-                <div class="cursor-pointer hover:underline uppercase" onmouseenter="showTeaser('visueel-1', 'Baarmoeders', 'DETAILS COMING SOON...')" onclick="openPopupFull()">
-                    <span class="font-normal">Baarmoeders</span>
-                </div>
-                <div class="flex gap-2 items-center text-gray-500 select-none">
-                     <button onclick="scrollPrev('c-visueel-1')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&lt;</button>
-                     <span id="cnt-visueel-1" class="text-black text-sm">(1/1)</span>
-                     <button onclick="scrollNext('c-visueel-1')" class="text-black hover:opacity-50 text-xl leading-none pb-1">&gt;</button>
-                </div>
-            </div>
-        </article>
-
-    </main>
-
-    <script>
-        // --- NATIVE CAROUSEL LOGIC ---
-        
-        function scrollPrev(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' });
+window.addEventListener('DOMContentLoaded',function(){
+    var obs=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(!entry.isIntersecting)return;
+            var slide=entry.target,c=slide.parentNode;
+            var slides=Array.from(c.children);
+            var i=slides.indexOf(slide)+1,n=slides.length;
+            if(c.id&&c.id.startsWith('c-')){
+                var k=c.id.substring(2);
+                var cnt=document.getElementById('cnt-'+k);
+                var prog=document.getElementById('prog-'+k);
+                if(cnt)cnt.textContent=i+' / '+n;
+                if(prog)prog.style.width=((i/n)*100)+'%';
             }
-        }
-
-        function scrollNext(id) {
-            const el = document.getElementById(id);
-            if (el) {
-                el.scrollBy({ left: el.clientWidth, behavior: 'smooth' });
-            }
-        }
-
-        // --- MOUSE DRAG SCROLLING LOGIC ---
-        const sliders = document.querySelectorAll('.carousel-container');
-        sliders.forEach(slider => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            slider.addEventListener('mousedown', (e) => {
-                isDown = true;
-                slider.classList.add('cursor-grabbing');
-                slider.classList.remove('cursor-grab');
-                // Remove smooth scrolling while dragging to prevent lag
-                slider.classList.remove('scroll-smooth');
-                
-                // Ensure we don't select text while dragging
-                e.preventDefault();
-                startX = e.pageX - slider.offsetLeft;
-                scrollLeft = slider.scrollLeft;
-            });
-
-            slider.addEventListener('mouseleave', () => {
-                isDown = false;
-                slider.classList.remove('cursor-grabbing');
-                slider.classList.add('cursor-grab');
-                // Re-enable smooth scrolling
-                slider.classList.add('scroll-smooth');
-            });
-
-            slider.addEventListener('mouseup', () => {
-                isDown = false;
-                slider.classList.remove('cursor-grabbing');
-                slider.classList.add('cursor-grab');
-                 // Re-enable smooth scrolling
-                slider.classList.add('scroll-smooth');
-            });
-
-            slider.addEventListener('mousemove', (e) => {
-                if(!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; // scroll-fast multiplier
-                slider.scrollLeft = scrollLeft - walk;
-            });
         });
+    },{threshold:0.5});
+    document.querySelectorAll('.carousel-container').forEach(function(c){
+        Array.from(c.children).forEach(function(s){obs.observe(s);});
+    });
 
-        // --- INTERSECTION OBSERVER FOR COUNTERS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const carousels = document.querySelectorAll('.carousel-container');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const slide = entry.target;
-                        const carousel = slide.parentNode;
-                        const slides = Array.from(carousel.children);
-                        const index = slides.indexOf(slide) + 1;
-                        const total = slides.length;
-                        
-                        if (carousel.id && carousel.id.startsWith('c-')) {
-                            const counterId = 'cnt-' + carousel.id.substring(2);
-                            const counterEl = document.getElementById(counterId);
-                            if (counterEl) {
-                                counterEl.innerText = `(${index}/${total})`;
-                            }
-                        }
-                    }
-                });
-            }, { threshold: 0.5, root: null });
+    var hdr=document.getElementById('main-header');
+    window.addEventListener('scroll',function(){hdr.classList.toggle('shrunk',window.scrollY>80);},{passive:true});
 
-            carousels.forEach(carousel => {
-                Array.from(carousel.children).forEach(slide => observer.observe(slide));
-            });
-        });
-
-        // --- MENUS, POPUP, COLORS ---
-
-        // Define a palette of earthy browns/beiges for each category
-        const categoryColors = {
-            'act-0': '#E8DCCA', 
-            'act-1': '#E0C9A6',
-            'act-2': '#D2B48C',
-            'act-3': '#C6A678',
-            'act-4': '#BFA07D', 
-            'act-5': '#CDBEA7',
-            'visueel-0': '#D9C5B2',
-            'visueel-1': '#D1BFA0', // New Earthy Sand/Brown for Baarmoeders
-            'default': '#E3B959' // Fallback
-        };
-
-        function toggleRightMenu() {
-            const menu = document.getElementById('right-menu');
-            const btn = document.getElementById('header-right-btn');
-            const isOpen = !menu.classList.contains('translate-x-full');
-            
-            closePopup();
-            
-            if (isOpen) { 
-                closeRightMenu(); 
-            } else { 
-                menu.classList.remove('translate-x-full'); 
-                btn.innerText = 'Close'; 
-            }
+    document.querySelectorAll('.img-hover-zone').forEach(function(zone){
+        var article=zone.closest('.work-article');
+        var isSingle=article&&article.classList.contains('single-img');
+        var wrap=zone.closest('.work-image-wrap');
+        var carousel=wrap.querySelector('.carousel-container');
+        var id=zone.dataset.id,title=zone.dataset.title,text=zone.dataset.text;
+        zone.addEventListener('mouseenter',function(){teaser(id,title,text);});
+        zone.addEventListener('mouseleave',function(){zone.classList.remove('hover-left','hover-right');startHide();});
+        if(!isSingle){
+            zone.addEventListener('mousemove',function(e){var r=zone.getBoundingClientRect(),goLeft=(e.clientX-r.left)<r.width/2;zone.classList.toggle('hover-left',goLeft);zone.classList.toggle('hover-right',!goLeft);});
+            zone.addEventListener('click',function(e){if(window.matchMedia('(hover:none)').matches){openFull();return;}var r=zone.getBoundingClientRect(),goLeft=(e.clientX-r.left)<r.width/2;carousel.scrollBy({left:goLeft?-carousel.clientWidth:carousel.clientWidth,behavior:'smooth'});});
+        } else {
+            zone.addEventListener('click',function(){openFull();});
         }
+    });
+});
 
-        function closeRightMenu() {
-            document.getElementById('right-menu').classList.add('translate-x-full');
-            document.getElementById('header-right-btn').innerText = 'Menu';
-        }
+// ── MENU ──
+function toggleMenu(){
+    var dm=document.getElementById('right-menu'),mm=document.getElementById('mobile-menu'),b=document.getElementById('header-menu-btn');
+    var m=window.innerWidth<=767?mm:dm;
+    var open=m.classList.contains('open');
+    closePopup();
+    m.classList.toggle('open',!open);
+    m.setAttribute('aria-hidden',open?'true':'false');
+    b.textContent=open?'Menu':'Close';
+    document.body.style.overflow=open?'':'hidden';
+}
+function closeMenu(){
+    ['right-menu','mobile-menu'].forEach(function(id){var m=document.getElementById(id);m.classList.remove('open');m.setAttribute('aria-hidden','true');});
+    document.getElementById('header-menu-btn').textContent='Menu';
+    document.body.style.overflow='';
+}
+function goTo(id,title,text){
+    closeMenu();
+    var el=document.getElementById(id);if(!el)return;
+    setTimeout(function(){
+        smoothTo(el.getBoundingClientRect().top+window.scrollY-60,450);
+        setTimeout(function(){cur={id:id,title:title,text:text};applyColor(id);fill(title,text);openFull();},470);
+    },160);
+}
+function smoothTo(y,ms){
+    var sy=window.scrollY,d=y-sy,t0=null;
+    function step(now){if(!t0)t0=now;var t=Math.min((now-t0)/ms,1);var e=t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;window.scrollTo(0,sy+d*e);if(t<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+}
 
-        function navigateToWork(workId, title, text) {
-            closeRightMenu(); // Close the menu we are currently in
-            const element = document.getElementById(workId);
-            if (element) {
-                const centerOffset = (window.innerHeight / 2) - (element.offsetHeight / 2);
-                const targetPosition = (element.getBoundingClientRect().top + window.scrollY) - centerOffset;
-                smoothScrollTo(targetPosition, 1000); 
-                // Delay showing teaser slightly to allow scroll to start
-                setTimeout(() => showTeaser(workId, title, text), 1000);
-            }
-        }
-
-        function smoothScrollTo(targetY, duration) {
-            const startY = window.scrollY;
-            const distance = targetY - startY;
-            let startTime = null;
-            function animation(currentTime) {
-                if (startTime === null) startTime = currentTime;
-                const timeElapsed = currentTime - startTime;
-                const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-                window.scrollTo(0, startY + (distance * ease(timeElapsed / duration)));
-                if (timeElapsed < duration) requestAnimationFrame(animation);
-            }
-            requestAnimationFrame(animation);
-        }
-
-        // Removed updateHeaderText() and onscroll logic per user request.
-
-        // Popup
-        let teaserTimeout;
-        let isFullOpen = false;
-
-        function populatePopup(title, initialText) {
-            document.getElementById('popup-title').innerText = title;
-            document.getElementById('popup-content').innerHTML = `
-                <p class="font-light leading-relaxed text-lg">${initialText}</p>
-                <div class="mt-8 text-black leading-loose text-base opacity-50 font-light">
-                    <!-- Placeholder for extended content -->
-                    ${Array(5).fill("This is a placeholder for extended descriptions, technical details, or full poetic texts that would accompany this work.").join('<br><br>')}
-                </div>`;
-        }
-
-        // Updated showTeaser to accept an ID for coloring
-        function showTeaser(id, title, text) {
-            if (isFullOpen) return; 
-            clearTimeout(teaserTimeout);
-            
-            if (!document.getElementById('right-menu').classList.contains('translate-x-full')) closeRightMenu();
-            
-            // Set Color based on ID
-            const color = categoryColors[id] || categoryColors['default'];
-            document.getElementById('popup-header').style.backgroundColor = color;
-            document.getElementById('popup-body-wrapper').style.backgroundColor = color;
-            document.getElementById('popup-overlay').style.backgroundColor = color;
-
-            populatePopup(title, text);
-            const popup = document.getElementById('popup-overlay');
-            popup.style.height = '150px'; 
-            popup.classList.remove('translate-y-full');
-            document.getElementById('popup-action-btn').innerText = 'More...';
-            document.getElementById('popup-action-btn').onclick = (e) => { e.stopPropagation(); openPopupFull(); };
-        }
-        
-        function startHideTeaser() { if (!isFullOpen) teaserTimeout = setTimeout(closePopup, 300); }
-        function cancelHideTeaser() { if (!isFullOpen) clearTimeout(teaserTimeout); }
-        
-        function openPopupFull(title, text) {
-            // Note: If calling this directly, we assume color is already set via showTeaser
-            if (title && text) populatePopup(title, text);
-            isFullOpen = true;
-            clearTimeout(teaserTimeout); 
-            const popup = document.getElementById('popup-overlay');
-            popup.style.height = '70vh'; 
-            popup.classList.remove('translate-y-full');
-            const btn = document.getElementById('popup-action-btn');
-            btn.innerText = 'Close';
-            btn.onclick = (e) => { e.stopPropagation(); closePopup(); };
-        }
-        
-        function closePopup() {
-            isFullOpen = false;
-            const popup = document.getElementById('popup-overlay');
-            popup.classList.add('translate-y-full');
-            setTimeout(() => { if(!isFullOpen) popup.style.height = '150px'; }, 500);
-        }
-    </script>
+// ── POPUP ──
+var colors={'act-2':'#A8BDD4','act-3':'#C4856A','act-4':'#8FAD88','act-5':'#C9A0A0','visueel-0':'#C9A882','visueel-1':'#B09AAD','about':'#9EB5B5','default':'#E3B959'};
+var hideTimer,isFull=false,cur={};
+function applyColor(id){var c=colors[id]||colors['default'];document.getElementById('popup-overlay').style.backgroundColor=c;document.getElementById('popup-header').style.backgroundColor=c;document.getElementById('popup-body-wrapper').style.backgroundColor=c;}
+function fill(title,text){document.getElementById('popup-title').textContent=title;document.getElementById('popup-content').innerHTML='<p>'+text+'</p>';}
+function teaser(id,title,text){if(isFull)return;clearTimeout(hideTimer);cur={id:id,title:title,text:text};applyColor(id);fill(title,text);var p=document.getElementById('popup-overlay');p.style.height='50px';p.classList.add('visible');document.getElementById('popup-action-btn').textContent='More';}
+function startHide(){if(!isFull)hideTimer=setTimeout(closePopup,1000);}
+function cancelHide(){clearTimeout(hideTimer);}
+function openFull(){if(cur.id){applyColor(cur.id);fill(cur.title,cur.text);}isFull=true;clearTimeout(hideTimer);var p=document.getElementById('popup-overlay');p.classList.add('is-full');p.style.height='62vh';p.classList.add('visible');document.getElementById('popup-action-btn').textContent='Close';}
+function handleBtn(){isFull?closePopup():openFull();}
+function closePopup(){isFull=false;var p=document.getElementById('popup-overlay');p.classList.remove('is-full');p.classList.add('notransition');p.style.height='50px';p.getBoundingClientRect();p.classList.remove('notransition');p.classList.remove('visible');}
+document.addEventListener('click',function(e){var dm=document.getElementById('right-menu'),mm=document.getElementById('mobile-menu'),b=document.getElementById('header-menu-btn');if((dm.classList.contains('open')||mm.classList.contains('open'))&&!dm.contains(e.target)&&!mm.contains(e.target)&&!b.contains(e.target))closeMenu();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeMenu();closePopup();}});
+</script>
 </body>
 </html>
