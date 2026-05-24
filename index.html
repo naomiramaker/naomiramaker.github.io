@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background: #FDF8F3; color: #000; overflow-x: hidden; }
@@ -72,7 +71,6 @@
       .m-nav-item { display: block; padding: 2px 0; cursor: pointer; border: none; background: none; font-family: inherit; text-align: center; width: 100%; text-decoration: none; color: #000; transition: opacity 0.15s; }
       .m-nav-item:active { opacity: 0.25; }
       .m-nav-title { font-family: 'Cormorant', Georgia, serif; font-size: clamp(2rem, 12vw, 4rem); font-weight: 300; font-style: italic; line-height: 1.1; color: #000; display: block; }
-      .m-contacts { display: none; }
 
       .menu-close-btn { position: absolute; top: 0; right: 0; height: 52px; padding: 0 20px; display: flex; align-items: center; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; background: none; border: none; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; z-index: 1; }
       .menu-close-btn:hover { opacity: 0.4; }
@@ -80,9 +78,6 @@
       .menu-nav-item { display: block; width: 100%; padding: 4px 0; cursor: pointer; text-decoration: none; color: #000; transition: opacity 0.15s; }
       .menu-nav-item:hover { opacity: 0.2; }
       .menu-nav-title { font-family: 'Cormorant', Georgia, serif; font-size: clamp(2.2rem, 6.5vw, 5rem); font-weight: 300; font-style: italic; letter-spacing: 0.01em; text-transform: none; line-height: 1.05; color: #000; }
-      .menu-contacts { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 18px; }
-      .menu-contact-link { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: #000; text-decoration: none; opacity: 0.35; transition: opacity 0.15s; }
-      .menu-contact-link:hover { opacity: 1; }
 
       /* ── IMAGES ── */
       .work-article { width: 100%; margin-bottom: 40px; }
@@ -93,7 +88,6 @@
 
       .work-image-wrap { position: relative; width: 100%; height: 100svh; overflow: hidden; }
 
-      /* Mobile: show-full first image only */
       @media(max-width: 767px) {
         .show-full .work-image-wrap { height: auto; overflow: visible; }
         .show-full .carousel-container { height: auto; overflow: visible; display: block; }
@@ -141,7 +135,6 @@
       #popup-overlay { position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #000; z-index: 105; transform: translateY(100%); transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), height 0.32s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; height: 50px; }
       #popup-overlay.visible { transform: translateY(0); }
       #popup-overlay.visible:not(.is-full):hover { height: 160px !important; }
-      /* Mobile teaser: taller by default so it's actually visible */
       @media(max-width: 767px) {
         #popup-overlay:not(.is-full) { height: 120px; }
         #popup-overlay.visible:not(.is-full):hover { height: 120px !important; }
@@ -160,7 +153,6 @@
       @media(min-width: 1280px) { #popup-content { padding: 28px 32px 52px; } }
       #popup-content p { font-size: 0.82rem; letter-spacing: 0.03em; text-transform: none; font-weight: 300; line-height: 1.9; max-width: 560px; text-align: center; color: rgba(0,0,0,0.85); }
 
-      /* Force all text black — no blue links */
       a, button, span, p, h1, h2, h3, h4, div { color: inherit; }
       a { color: #000; }
 
@@ -245,6 +237,7 @@
 
 <main>
 
+    <!-- MAANZUSTERS -->
     <article class="work-article" id="act-2">
         <div class="work-inner">
             <div class="work-image-wrap">
@@ -252,8 +245,8 @@
                     <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
                 </div>
                 <div id="c-act-2" class="carousel-container">
-                    <div class="carousel-slide"><img src="assets naomi/work/Maanzusters/image00016.jpeg" onerror="this.src='assets/landing.jpg'" alt="Maanzusters"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/Maanzusters/image00018.jpeg" onerror="this.src='assets/landing.jpg'" alt="Maanzusters"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Maanzusters (1).webp" onerror="this.src=''" alt="Maanzusters"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Maanzusters (2).webp" onerror="this.src=''" alt="Maanzusters"></div>
                 </div>
             </div>
             <div class="caption-bar" onmouseenter="teaser('act-2','Maanzusters','Maanzusters is een muzikaal duo bestaande uit Rosa &amp; Naomi.')" onmouseleave="startHide()" onclick="openFull()">
@@ -268,28 +261,37 @@
         </div>
     </article>
 
-    <article class="work-article show-full single-img" id="act-3">
+    <!-- OPTREDEN -->
+    <article class="work-article show-full" id="act-3">
         <div class="work-inner">
             <div class="work-image-wrap">
-                <div class="img-hover-zone" data-id="act-3" data-title="Optreden" data-text="Naomi schrijft po&euml;zie alsof het proza is. Als lezer dwaal je door de beelden. Soms word je aan de hand genomen, soms valt de grond onder je weg of wordt hij met liefde weer aangelegd. Ze schrijft over relaties met de mensen en andere wezens om haar heen, over wat het betekent om een vrouwenlichaam te hebben en je vrouw te voelen. En dat alles met een scherpe zachtheid.. Bundels: Man. Mal. Draagzak. Feniks. Optredens: Junior-stadsdichter van Harderwijk (2016-2020) / Walhalla Harderwijk / Estrado Harderwijk / Onderstroom Festival / Tilt Tilburg / Boeken rond het Paleis / In De Morelleput / Sound &amp; Soul Nijmegen / ABC Libertas Arnhem / Ecojam Amsterdam / Vurige Tongen Ruigoord / Soelaas Amersfoort / Per expressie Amersfoort"></div>
+                <div class="img-hover-zone" data-id="act-3" data-title="Optreden" data-text="Naomi schrijft po&euml;zie alsof het proza is. Als lezer dwaal je door de beelden. Soms word je aan de hand genomen, soms valt de grond onder je weg of wordt hij met liefde weer aangelegd. Ze schrijft over relaties met de mensen en andere wezens om haar heen, over wat het betekent om een vrouwenlichaam te hebben en je vrouw te voelen. En dat alles met een scherpe zachtheid.. Bundels: Man. Mal. Draagzak. Feniks. Optredens: Junior-stadsdichter van Harderwijk (2016-2020) / Walhalla Harderwijk / Estrado Harderwijk / Onderstroom Festival / Tilt Tilburg / Boeken rond het Paleis / In De Morelleput / Sound &amp; Soul Nijmegen / ABC Libertas Arnhem / Ecojam Amsterdam / Vurige Tongen Ruigoord / Soelaas Amersfoort / Per expressie Amersfoort">
+                    <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
+                </div>
                 <div id="c-act-3" class="carousel-container">
-                    <div class="carousel-slide"><img src="assets naomi/work/Ruis/image00003.jpeg" onerror="this.src='assets/landing.jpg'" alt="Optreden"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Ruis (1).webp" onerror="this.src=''" alt="Optreden"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Ruis (2).webp" onerror="this.src=''" alt="Optreden"></div>
                 </div>
             </div>
             <div class="caption-bar" onmouseenter="teaser('act-3','Optreden','Naomi schrijft po\u00ebzie alsof het proza is. En dat alles met een scherpe zachtheid.')" onmouseleave="startHide()" onclick="openFull()">
                 <div class="caption-title">Optreden</div>
-                <div class="progress-track" style="display:none"></div>
-                <div class="caption-nav"></div>
+                <div class="progress-track"><div class="progress-fill" id="prog-act-3" style="width:50%"></div></div>
+                <div class="caption-nav">
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollPrev('c-act-3')">&#8592;</button>
+                    <span class="slide-count" id="cnt-act-3">1 / 2</span>
+                    <button class="nav-btn" onclick="event.stopPropagation();scrollNext('c-act-3')">&#8594;</button>
+                </div>
             </div>
         </div>
     </article>
 
+    <!-- GEDICHTEN OP MAAT -->
     <article class="work-article show-full single-img" id="act-4">
         <div class="work-inner">
             <div class="work-image-wrap">
                 <div class="img-hover-zone" data-id="act-4" data-title="Gedichten (op maat)" data-text="Heb je een verhaal dat je dicht aan het hart ligt? Laat het vertalen in een gedicht! Zo word je door je eigen verhaal geraakt in andermans verwoording en krijg je een ander perspectief op wat voor je neus lag, of juist te ver weg was om aan te raken.. Particuliere opdrachten. Diverse winkels die kaarten De Zinnige Zaak verkopen. Blur Amersfoort. In de Buitenlucht zorg"></div>
                 <div id="c-act-4" class="carousel-container">
-                    <div class="carousel-slide"><img src="assets naomi/work/Gedichten op maat/IMG_2393.JPG" onerror="this.src='assets/landing.jpg'" alt="Gedichten op maat"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Gedichten Op Maat.webp" onerror="this.src=''" alt="Gedichten op maat"></div>
                 </div>
             </div>
             <div class="caption-bar" onmouseenter="teaser('act-4','Gedichten (op maat)','Heb je een verhaal dat je dicht aan het hart ligt? Laat het vertalen in een gedicht!')" onmouseleave="startHide()" onclick="openFull()">
@@ -300,6 +302,7 @@
         </div>
     </article>
 
+    <!-- PROZA (Oma, Amen) -->
     <article class="work-article show-full" id="act-5">
         <div class="work-inner">
             <div class="work-image-wrap">
@@ -307,23 +310,38 @@
                     <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
                 </div>
                 <div id="c-act-5" class="carousel-container">
-                    <div class="carousel-slide"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.54.jpeg" onerror="this.src='assets/landing.jpg'" alt="Proza"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.46.45.jpeg" onerror="this.src='assets/landing.jpg'" alt="Proza"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/WhatsApp Image 2026-02-04 at 13.47.07.jpeg" onerror="this.src='assets/landing.jpg'" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen.webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (1).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (2).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (3).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (4).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (5).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (6).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (7).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (8).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (9).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (10).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (11).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (12).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (13).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (14).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (15).webp" onerror="this.src=''" alt="Proza"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Oma, Amen (16).webp" onerror="this.src=''" alt="Proza"></div>
                 </div>
             </div>
             <div class="caption-bar" onmouseenter="teaser('act-5','Proza','Naomi schrijft proza alsof het po\u00ebzie is.')" onmouseleave="startHide()" onclick="openFull()">
                 <div class="caption-title">Proza</div>
-                <div class="progress-track"><div class="progress-fill" id="prog-act-5" style="width:33%"></div></div>
+                <div class="progress-track"><div class="progress-fill" id="prog-act-5" style="width:5.88%"></div></div>
                 <div class="caption-nav">
                     <button class="nav-btn" onclick="event.stopPropagation();scrollPrev('c-act-5')">&#8592;</button>
-                    <span class="slide-count" id="cnt-act-5">1 / 3</span>
+                    <span class="slide-count" id="cnt-act-5">1 / 17</span>
                     <button class="nav-btn" onclick="event.stopPropagation();scrollNext('c-act-5')">&#8594;</button>
                 </div>
             </div>
         </div>
     </article>
 
+    <!-- VROUWEN VAN STOF -->
     <article class="work-article" id="visueel-0">
         <div class="work-inner">
             <div class="work-image-wrap">
@@ -331,12 +349,12 @@
                     <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
                 </div>
                 <div id="c-visueel-0" class="carousel-container">
-                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00013.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00009.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00012.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00011.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00010.jpeg" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/Textiel werk/Vrouwen van stof/image00014.png" onerror="this.src='assets/landing.jpg'" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Vrouwen van Stof (1).webp" onerror="this.src=''" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Vrouwen van Stof (2).webp" onerror="this.src=''" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Vrouwen van Stof (3).webp" onerror="this.src=''" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Vrouwen van Stof (4).webp" onerror="this.src=''" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Vrouwen van Stof (5).webp" onerror="this.src=''" alt="Vrouwen van Stof"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Vrouwen van Stof (6).webp" onerror="this.src=''" alt="Vrouwen van Stof"></div>
                 </div>
             </div>
             <div class="caption-bar" onmouseenter="teaser('visueel-0','Vrouwen van Stof','Text-tiel. Wandkleed oma. Wandkleed vogel. Wandkleed wieke')" onmouseleave="startHide()" onclick="openFull()">
@@ -351,6 +369,7 @@
         </div>
     </article>
 
+    <!-- BAARMOEDERS -->
     <article class="work-article show-full" id="visueel-1">
         <div class="work-inner">
             <div class="work-image-wrap">
@@ -358,9 +377,9 @@
                     <span class="arrow-hint left"></span><span class="arrow-hint right"></span>
                 </div>
                 <div id="c-visueel-1" class="carousel-container">
-                    <div class="carousel-slide"><img src="assets naomi/work/baarmoeder/IMG_4841.JPG" onerror="this.src='assets/landing.jpg'" alt="Baarmoeders"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/baarmoeder/IMG_4832.JPG" onerror="this.src='assets/landing.jpg'" alt="Baarmoeders"></div>
-                    <div class="carousel-slide"><img src="assets naomi/work/baarmoeder/IMG_4848.JPG" onerror="this.src='assets/landing.jpg'" alt="Baarmoeders"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Baarmoeder (1).webp" onerror="this.src=''" alt="Baarmoeders"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Baarmoeder (2).webp" onerror="this.src=''" alt="Baarmoeders"></div>
+                    <div class="carousel-slide"><img src="assets naomi/Baarmoeder (3).webp" onerror="this.src=''" alt="Baarmoeders"></div>
                 </div>
             </div>
             <div class="caption-bar" onmouseenter="teaser('visueel-1','Baarmoeders','DETAILS COMING SOON...')" onmouseleave="startHide()" onclick="openFull()">
@@ -393,11 +412,9 @@
             <a class="footer-link" href="assets naomi/CV Naomi Ramaker.pdf" download>CV &#8595;</a>
         </div>
     </div>
-
 </footer>
 
 <script>
-// ── ABOUT (no article, lives in popup only) ──
 var aboutText = 'Naomi Ramaker was junior stadsdichter van Harderwijk (2016-2020) en zit in het vierde jaar van Creative Writing op ArtEZ. Ze schrijft proza, po\u00ebzie, liedjes en doet onderzoek naar de rol van de baarmoeder in de maatschappij en het christendom. Ook geeft ze kunstworkshops via De Vrolijkheid. Eerder schreef ze een korte verhalenbundel over haar oma en de invloed van het christendom op haar seksualiteit. Ze kiest haar woorden met een scherpe zachtheid. Eerder trad ze op bij onder andere Het Moet, Vurige Tongen en stond ze in de Seizoenszine. naomiramaker@gmail.com. @naomiramaker';
 
 function openAbout() {
@@ -407,7 +424,6 @@ function openAbout() {
     openFull();
 }
 
-// ── CAROUSEL ──
 function scrollPrev(id){var el=document.getElementById(id);if(el)el.scrollBy({left:-el.clientWidth,behavior:'smooth'});}
 function scrollNext(id){var el=document.getElementById(id);if(el)el.scrollBy({left:el.clientWidth,behavior:'smooth'});}
 
@@ -443,29 +459,19 @@ window.addEventListener('DOMContentLoaded',function(){
     });
 
     var hdr=document.getElementById('main-header');
-
-    // Collect all articles with their data for scroll detection
     var articleData = [];
     document.querySelectorAll('.work-article[id]').forEach(function(article){
         var zone = article.querySelector('.img-hover-zone');
         if(zone && zone.dataset.id){
-            articleData.push({
-                el: article,
-                id: zone.dataset.id,
-                title: zone.dataset.title,
-                text: zone.dataset.text
-            });
+            articleData.push({el:article,id:zone.dataset.id,title:zone.dataset.title,text:zone.dataset.text});
         }
     });
 
     var lastScrollId = null;
     function onScroll(){
         hdr.classList.toggle('shrunk', window.scrollY>80);
-
-        // Mobile: update popup based on which article is most visible
         if(!window.matchMedia('(hover:none)').matches) return;
         if(isFull) return;
-
         var vh = window.innerHeight;
         var best = null, bestScore = -1;
         for(var i=0;i<articleData.length;i++){
@@ -473,7 +479,6 @@ window.addEventListener('DOMContentLoaded',function(){
             var overlap = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
             if(overlap > bestScore){ bestScore = overlap; best = articleData[i]; }
         }
-
         if(best && bestScore > vh * 0.3 && best.id !== lastScrollId){
             lastScrollId = best.id;
             cur = {id:best.id, title:best.title, text:best.text};
@@ -485,7 +490,6 @@ window.addEventListener('DOMContentLoaded',function(){
             document.getElementById('popup-action-btn').textContent = 'More';
         }
     }
-
     window.addEventListener('scroll', onScroll, {passive:true});
 
     document.querySelectorAll('.img-hover-zone').forEach(function(zone){
@@ -495,7 +499,6 @@ window.addEventListener('DOMContentLoaded',function(){
         var carousel=wrap.querySelector('.carousel-container');
         var id=zone.dataset.id,title=zone.dataset.title,text=zone.dataset.text;
 
-        // Desktop hover only
         if(!window.matchMedia('(hover:none)').matches){
             zone.addEventListener('mouseenter',function(){teaser(id,title,text);});
             zone.addEventListener('mouseleave',function(){zone.classList.remove('hover-left','hover-right');startHide();});
@@ -518,7 +521,6 @@ window.addEventListener('DOMContentLoaded',function(){
     });
 });
 
-// ── MENU ──
 function toggleMenu(){
     var dm=document.getElementById('right-menu'),mm=document.getElementById('mobile-menu'),b=document.getElementById('header-menu-btn');
     var m=window.innerWidth<=767?mm:dm;
@@ -548,7 +550,6 @@ function smoothTo(y,ms){
     requestAnimationFrame(step);
 }
 
-// ── POPUP ──
 var colors={'act-2':'#A8BDD4','act-3':'#C4856A','act-4':'#8FAD88','act-5':'#C9A0A0','visueel-0':'#C9A882','visueel-1':'#B09AAD','about':'#9EB5B5','default':'#E3B959'};
 var hideTimer,isFull=false,cur={};
 function applyColor(id){var c=colors[id]||colors['default'];document.getElementById('popup-overlay').style.backgroundColor=c;document.getElementById('popup-header').style.backgroundColor=c;document.getElementById('popup-body-wrapper').style.backgroundColor=c;}
